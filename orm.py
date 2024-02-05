@@ -4,7 +4,7 @@ import math
 import json
 
 personas = []
-numeropersonas = 20
+numeropersonas = 5
 
 
 
@@ -37,6 +37,8 @@ def guardarPersonas():
     print("guardo a los jugadores")
     cadena = json.dumps([vars(persona) for persona in personas])
     print(cadena)
+    archivo = open("jugadores.json",'w')
+    archivo.write(cadena)
 
 
 # CREO UNA VENTANA
@@ -51,9 +53,26 @@ lienzo.pack()
 boton = tk.Button(raiz,text="guarda",command=guardarPersonas)
 boton.pack()
 
-#EN LA COLECCION INTRODUZCO INSTANCIAS DE PERSONAS
-for i in range(0,numeropersonas):
+#CARGO PERSONAS DESDE EL DISCO DURO
+carga = open("jugadores.json",'r')
+cargado = carga.read()
+cargadolista = json.loads(cargado)
+print("es:"+cargado)
+numeropersonas = len(cargadolista)
+print(numeropersonas)
+for elemento in cargadolista:
     personas.append(Persona())
+    personas[-1].posx = elemento.posx
+    personas[-1].posy = elemento.posy
+    personas[-1].radio = elemento.radio
+    personas[-1].direccion = elemento.direccion
+    personas[-1].entidad = elemento.entidad
+
+#EN LA COLECCION INTRODUZCO INSTANCIAS DE PERSONAS SI NO EXISTEN
+if len(personas) == 0:
+    numeropersonas = len(personas)
+    for i in range(0,numeropersonas):
+        personas.append(Persona())
     
 #PARA CADA UNA DE LAS PERSONAS DE LA COLECCION LAS PINTA
 for persona in personas:
