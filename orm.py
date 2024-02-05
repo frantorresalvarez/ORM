@@ -57,16 +57,10 @@ boton.pack()
 carga = open("jugadores.json",'r')
 cargado = carga.read()
 cargadolista = json.loads(cargado)
-print("es:"+cargado)
-numeropersonas = len(cargadolista)
-print(numeropersonas)
 for elemento in cargadolista:
-    personas.append(Persona())
-    personas[-1].posx = elemento.posx
-    personas[-1].posy = elemento.posy
-    personas[-1].radio = elemento.radio
-    personas[-1].direccion = elemento.direccion
-    personas[-1].entidad = elemento.entidad
+    persona = Persona()
+    persona.__dict__.update(elemento)
+    personas.append(persona)
 
 #EN LA COLECCION INTRODUZCO INSTANCIAS DE PERSONAS SI NO EXISTEN
 if len(personas) == 0:
